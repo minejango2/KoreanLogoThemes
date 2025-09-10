@@ -1,0 +1,4 @@
+displayName = Korean Logos for Main Menu Themes
+author = 테라리아유저, mine_jango
+version = 1.0
+Side = Client
