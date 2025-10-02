@@ -1,1 +1,35 @@
+Configs: {
+	KoreanLogoThemesConfig: {
+		DisplayName: 로고 설정
 
+		ChangeLogoCalamity: {
+			Label: 칼라미티 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+
+		ChangeLogoCalamityVanillaMusic: {
+			Label: 칼라미티 모드 바닐라 음악 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+
+		ChangeLogoCatalyst: {
+			Label: 카탈리스트 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+
+		ChangeLogoInfernum: {
+			Label: 인페르넘 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+
+		ChangeLogoFargo: {
+			Label: 파르고 소울 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+
+		ChangeLogoStarsAbove: {
+			Label: 스타 어보브 로고 대체
+			Tooltip: 끌 경우 로고를 한글로 대체하지 않습니다.
+		}
+	}
+}

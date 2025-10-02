@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -7,6 +8,7 @@ using ReLogic.Content;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 using Terraria.ModLoader.Default;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,21 +34,42 @@ public class KoreanLogoThemes : ModSystem
             field?.SetValue(null, ModContent.Request<Texture2D>("KoreanLogoThemes/Assets/Textures/tModLoaderLogoKor", AssetRequestMode.ImmediateLoad));
         }
 
-        var targets = new (string ModName, string TypeName, string PropName, string AssetPath)[]
+        var config = ModContent.GetInstance<KoreanLogoThemesConfig>();
+
+        var targets = new List<(string ModName, string TypeName, string PropName, string AssetPath)>();
+
+        // 칼라미티
+        if (config.ChangeLogoCalamity)
+            targets.Add(("CalamityMod", "CalamityMod.MainMenu.CalamityMainMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoKor"));
+
+        // 칼라미티 모드 바닐라 음악 애드온
+        if (config.ChangeLogoCalamityVanillaMusic)
         {
-            //칼라미티
-            ("CalamityMod", "CalamityMod.MainMenu.CalamityMainMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoKor"),
-            //칼라미티 모드 바닐라 음악 애드온
-            ("UnCalamityModMusic", "UnCalamityModMusic.Content.Menus.ResurrectionMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoResurrectionKor"),
-            ("UnCalamityModMusic", "UnCalamityModMusic.Content.Menus.MemoryMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoMemoryKor"),
-            //인페르넘
-            ("InfernumMode", "InfernumMode.Content.MainMenu.InfernumMainMenu", "Logo", "KoreanLogoThemes/Assets/Textures/InfernumLogoKor"),
-            //카탈리스트
-            ("CatalystMod", "CatalystMod.Content.MainMenus.AstrageldonStyle", "Logo", "KoreanLogoThemes/Assets/Textures/CatalystLogoKor"),
-            //파르고
-            ("FargowiltasSouls", "FargowiltasSouls.Content.UI.FargoMenuScreen", "Logo", "KoreanLogoThemes/Assets/Textures/FargoLogoKor"),
-            ("FargowiltasSouls", "FargowiltasSouls.Content.UI.FargoMenuScreen", "LogoGlow", "KoreanLogoThemes/Assets/Textures/FargoLogoGlowKor")
-        };
+            targets.Add(("UnCalamityModMusic", "UnCalamityModMusic.Content.Menus.ResurrectionMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoResurrectionKor"));
+            targets.Add(("UnCalamityModMusic", "UnCalamityModMusic.Content.Menus.MemoryMenu", "Logo", "KoreanLogoThemes/Assets/Textures/CalamityLogoMemoryKor"));
+        }
+
+        // 인페르넘
+        if (config.ChangeLogoInfernum)
+            targets.Add(("InfernumMode", "InfernumMode.Content.MainMenu.InfernumMainMenu", "Logo", "KoreanLogoThemes/Assets/Textures/InfernumLogoKor"));
+
+        // 카탈리스트
+        if (config.ChangeLogoCatalyst)
+            targets.Add(("CatalystMod", "CatalystMod.Content.MainMenus.AstrageldonStyle", "Logo", "KoreanLogoThemes/Assets/Textures/CatalystLogoKor"));
+
+        // 파르고
+        if (config.ChangeLogoFargo)
+        {
+            targets.Add(("FargowiltasSouls", "FargowiltasSouls.Content.UI.FargoMenuScreen", "Logo", "KoreanLogoThemes/Assets/Textures/FargoLogoKor"));
+            targets.Add(("FargowiltasSouls", "FargowiltasSouls.Content.UI.FargoMenuScreen", "LogoGlow", "KoreanLogoThemes/Assets/Textures/FargoLogoGlowKor"));
+        }
+
+        // 스타어보브
+        if (config.ChangeLogoStarsAbove)
+        {
+            targets.Add(("StarsAbove", "StarsAbove.Menu.StarsAboveMainMenu", "Logo", "KoreanLogoThemes/Assets/Textures/StarsAbove2LogoKor"));
+            targets.Add(("StarsAbove", "StarsAbove.Menu.StarsAboveMainMenu2", "Logo", "KoreanLogoThemes/Assets/Textures/StarsAbove2LogoKor"));
+        }
 
         foreach (var (modName, typeName, propName, assetPath) in targets)
         {
@@ -130,4 +153,35 @@ public class KoreanLogoThemes : ModSystem
         }
         originalLogo = null;
     }
+}
+
+public class KoreanLogoThemesConfig : ModConfig
+{
+    public static KoreanLogoThemesConfig Instance => ModContent.GetInstance<KoreanLogoThemesConfig>();
+
+    public override ConfigScope Mode => ConfigScope.ClientSide;
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoCalamity { get; set; }
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoCalamityVanillaMusic { get; set; }
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoInfernum { get; set; }
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoCatalyst { get; set; }
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoFargo { get; set; }
+
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool ChangeLogoStarsAbove { get; set; }
 }
